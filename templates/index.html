@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Montreal Crime Data</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+  <style>
+    g.pointtext {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="row align-items-center mt-5">
+    <h1>
+      <center>Montreal Crime Data</center>
+    </h1>
+  </div>
+
+  <div class="row align-items-center mt-5">
+    {% block content %}
+    {% for message in form.year.errors %}
+      <div class="flash">{{ message }}</div>
+    {% endfor %}
+    {% for message in form.time.errors %}
+      <div class="flash">{{ message }}</div>
+    {% endfor %}
+
+    <div class="card mx-auto w-80">
+      <div class="input-group m-2">
+        <form class="row g-3 col-12 align-items-center" method=post>
+          <div class="col col-6">
+            {{ form.year.label }}
+            {{ form.year() }}
+          </div>
+          <div class="col col-6">
+            {{ form.time.label }}
+            {{ form.time() }}
+          </div>
+      
+          {{ form.submit }}
+        </form>
+      </div>
+    </div>
+    
+    {% endblock %}
+
+  </div>
+
+  <div id='map' class='map'></div>
+  <div class="card mx-auto w-80 text-center">
+    <p>Some helpful information:</p>
+    <p>You can choose multiple filters at a time (but at least 1 for each category)</p>
+    <p>Click on the legend to hide or display a crime category</p>
+  </div>
+</body>
+
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+<script>
+  var graphs = {{graphJSON | safe}};
+  Plotly.plot('map',graphs,{});
+</script>
+
+</html>
